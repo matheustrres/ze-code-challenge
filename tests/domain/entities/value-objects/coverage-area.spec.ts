@@ -48,4 +48,22 @@ describe('CoverageArea value object', () => {
 			),
 		);
 	});
+
+	it(`should throw if any polygon's ring is not an array`, () => {
+		const invalidCoverageArea = {
+			type: 'MultiPolygon',
+			coordinates: [
+				[
+					{}, // ring not an array
+				],
+			],
+		} as MultiPolygon;
+
+		throws(
+			() => CoverageArea.create(invalidCoverageArea),
+			new CoverageAreaError(
+				'Each ring in a polygon must be an array of numbers.',
+			),
+		);
+	});
 });
