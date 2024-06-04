@@ -18,4 +18,15 @@ describe('Partner entity', () => {
 		deepStrictEqual(ownerName, 'John Doe');
 		deepStrictEqual(tradingName, 'Zé Delivery');
 	});
+
+	it('should restore a Partner', () => {
+		const partner = new PartnerBuilder().build();
+
+		const restoredPartner = Partner.restore({
+			id: partner.id,
+			props: partner.getProps(),
+		});
+
+		deepStrictEqual(restoredPartner, partner);
+	});
 });
