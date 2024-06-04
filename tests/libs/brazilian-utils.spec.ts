@@ -19,4 +19,13 @@ describe('BrazilianUtils lib', () => {
 			deepStrictEqual(BrazilianUtils.isValidCPF('93867339007'), true);
 		});
 	});
+
+	describe('.isValidCNPJ', () => {
+		it('should return false if an invalid value is provided', () => {
+			deepStrictEqual(BrazilianUtils.isValidCNPJ(''), false);
+			deepStrictEqual(BrazilianUtils.isValidCNPJ('121das'), false);
+			deepStrictEqual(BrazilianUtils.isValidCNPJ('12312312312'), false);
+			deepStrictEqual(BrazilianUtils.isValidCNPJ('123456'), false);
+		});
+	});
 });
