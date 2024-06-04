@@ -18,4 +18,16 @@ describe('Address value object', () => {
 			new AddressError('Address type must be "Point".'),
 		);
 	});
+
+	it('should throw if address coordinates are not an array of two numbers', () => {
+		const invalidPoint = {
+			type: 'Point',
+			coordinates: [30], // Array length is not 2
+		} as Point;
+
+		throws(
+			() => Address.create(invalidPoint as Point),
+			new AddressError('Address coordinates must be an array of two numbers.'),
+		);
+	});
 });
