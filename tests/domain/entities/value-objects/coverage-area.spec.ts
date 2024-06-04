@@ -10,22 +10,12 @@ describe('CoverageArea value object', () => {
 	it('should throw if given coverage area type is not MultiPolygon', () => {
 		const invalidCoverageArea = {
 			type: 'Point',
-			coordinates: [
-				[
-					[
-						[102.0, 2.0],
-						[103.0, 2.0],
-						[103.0, 3.0],
-						[102.0, 3.0],
-						[102.0, 2.0],
-					],
-				],
-			],
+			coordinates: [],
 		};
 
 		throws(
 			() => CoverageArea.create(invalidCoverageArea as MultiPolygon),
-			new CoverageAreaError('Argument {type} must be "MultiPolygon".'),
+			new CoverageAreaError('Coverage area type must be "MultiPolygon".'),
 		);
 	});
 
@@ -38,7 +28,23 @@ describe('CoverageArea value object', () => {
 		throws(
 			() => CoverageArea.create(invalidCoverageArea as MultiPolygon),
 			new CoverageAreaError(
-				'Argument {coordinates} must be an array of numbers.',
+				'Coverage area coordinates must be an array of numbers.',
+			),
+		);
+	});
+
+	it(`should throw if any coordinates' polygon is not an array`, () => {
+		const invalidCoverageArea = {
+			type: 'MultiPolygon',
+			coordinates: [
+				{}, // polygon not an array
+			],
+		} as MultiPolygon;
+
+		throws(
+			() => CoverageArea.create(invalidCoverageArea),
+			new CoverageAreaError(
+				`Each coordinates' polygon must be an array of numbers.`,
 			),
 		);
 	});

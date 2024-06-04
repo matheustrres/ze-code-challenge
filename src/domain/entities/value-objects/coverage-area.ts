@@ -16,19 +16,19 @@ export class CoverageArea extends ValueObject<MultiPolygon> {
 
 	static #validate({ coordinates, type }: MultiPolygon): void {
 		if (type !== 'MultiPolygon') {
-			throw new CoverageAreaError('Argument {type} must be "MultiPolygon".');
+			throw new CoverageAreaError('Coverage area type must be "MultiPolygon".');
 		}
 
 		if (!Array.isArray(coordinates)) {
 			throw new CoverageAreaError(
-				'Argument {coordinates} must be an array of numbers.',
+				'Coverage area coordinates must be an array of numbers.',
 			);
 		}
 
 		coordinates.forEach((polygon) => {
 			if (!Array.isArray(polygon)) {
 				throw new CoverageAreaError(
-					`Each coordinate's polygon must be an array of numbers.`,
+					`Each coordinates' polygon must be an array of numbers.`,
 				);
 			}
 
@@ -47,7 +47,7 @@ export class CoverageArea extends ValueObject<MultiPolygon> {
 						typeof position[1] !== 'number'
 					) {
 						throw new CoverageAreaError(
-							`Each ring's position must be an array of two numbers.`,
+							'Each position in a ring must be an array of two numbers.',
 						);
 					}
 				});
