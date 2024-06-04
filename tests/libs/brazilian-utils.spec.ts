@@ -27,5 +27,12 @@ describe('BrazilianUtils lib', () => {
 			deepStrictEqual(BrazilianUtils.isValidCNPJ('12312312312'), false);
 			deepStrictEqual(BrazilianUtils.isValidCNPJ('123456'), false);
 		});
+
+		it('should return true if a valid value is provided', () => {
+			deepStrictEqual(BrazilianUtils.isValidCNPJ('75.054.071/0001-76'), true);
+			deepStrictEqual(BrazilianUtils.isValidCNPJ('41220350000140'), true);
+			deepStrictEqual(BrazilianUtils.isValidCNPJ('93184.333/000107'), true);
+			deepStrictEqual(BrazilianUtils.isValidCNPJ('28.969.938/0001-33'), true);
+		});
 	});
 });
