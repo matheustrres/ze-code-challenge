@@ -1,8 +1,10 @@
-import { throws } from 'node:assert';
+import { deepStrictEqual, throws } from 'node:assert';
 import { describe, it } from 'node:test';
 
 import { Document } from '@/domain/entities/value-objects/document';
 import { DocumentError } from '@/domain/errors/document';
+
+import { clearString } from '@/shared/utils/funcs/clear-string';
 
 describe('Document value object', () => {
 	it('should throw if document value length is not 11 or 14', () => {
@@ -24,5 +26,12 @@ describe('Document value object', () => {
 			() => Document.create({ value: '98765432143' }),
 			new DocumentError(`Invalid CPF value.`),
 		);
+	});
+
+	it('should create a CNPJ document', () => {
+		const doc = Document.create({ value: '54.183.716/0001-09' });
+
+		deepStrictEqual(doc.props.value, '54.183.716/0001-09');
+		deepStrictEqual(Document.isCNPJ(clearString(doc.props.value)), true);
 	});
 });
