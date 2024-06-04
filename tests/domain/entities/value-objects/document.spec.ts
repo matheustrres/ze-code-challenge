@@ -34,4 +34,11 @@ describe('Document value object', () => {
 		deepStrictEqual(doc.props.value, '54.183.716/0001-09');
 		deepStrictEqual(Document.isCNPJ(clearString(doc.props.value)), true);
 	});
+
+	it('should create a CPF document', () => {
+		const doc = Document.create({ value: '040.365.820-97' });
+
+		deepStrictEqual(doc.props.value, '040.365.820-97');
+		deepStrictEqual(Document.isCPF(clearString(doc.props.value)), true);
+	});
 });
