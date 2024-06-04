@@ -25,23 +25,43 @@ export class Document extends ValueObject<DocumentProps> {
 	}
 
 	static #validate({ value }: DocumentProps): void {
-		const cleanValue = clearString(value);
+		value = this.#format(value);
+
+		if (
+			value.length !== this.#CNPJ_LENGTH &&
+			value.length !== this.#CPF_LENGTH
+		) {
+			throw new DocumentError(`Invalid document value.`);
+		}
+
+		const isCNPJ = this.isCNPJ(value);
 
 		// CNPJ
-		if (cleanValue.length === this.#CNPJ_LENGTH) {
-			if (!Document.#isValidCNPJ(cleanValue)) {
+		if (isCNPJ) {
+			if (!Document.#isValidCNPJ(value)) {
 				throw new DocumentError(`Invalid CNPJ value.`);
 			}
 		}
 
-		// CPF
-		if (cleanValue.length === this.#CPF_LENGTH) {
+		const isCPF = this.isCPF(value);
+
+		if (isCPF) {
 			if (!Document.#isValidCPF(value)) {
 				throw new DocumentError(`Invalid CPF value.`);
 			}
 		}
+	}
 
-		throw new DocumentError(`Invalid document value.`);
+	static isCNPJ(value: string) {
+		return value.length === this.#CNPJ_LENGTH;
+	}
+
+	static isCPF(value: string) {
+		return value.length === this.#CPF_LENGTH;
+	}
+
+	static #format(value: string): string {
+		return clearString(value);
 	}
 
 	static #isValidCNPJ(value: string): boolean {
