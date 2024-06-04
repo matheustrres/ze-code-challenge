@@ -11,4 +11,11 @@ describe('Document value object', () => {
 			new DocumentError('Invalid document value.'),
 		);
 	});
+
+	it('should throw if an invalid CNPJ is provided', () => {
+		throws(
+			() => Document.create({ value: '12345678912341' }),
+			new DocumentError(`Invalid CNPJ value.`),
+		);
+	});
 });
