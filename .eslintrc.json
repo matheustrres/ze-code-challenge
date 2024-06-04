@@ -29,10 +29,9 @@
 					"sibling",
 					"parent",
 					"/^@/core/",
+					"/^@/domain/",
 					"/^@/infra/",
-					"/^@/libs/",
 					"/^@/main/",
-					"/^@/modules/",
 					"/^@/shared/",
 					"/^#/"
 				],
