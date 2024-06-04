@@ -18,4 +18,11 @@ describe('Document value object', () => {
 			new DocumentError(`Invalid CNPJ value.`),
 		);
 	});
+
+	it('should throw if an invalid CPF is provided', () => {
+		throws(
+			() => Document.create({ value: '98765432143' }),
+			new DocumentError(`Invalid CPF value.`),
+		);
+	});
 });
