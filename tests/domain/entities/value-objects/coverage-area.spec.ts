@@ -19,7 +19,7 @@ describe('CoverageArea value object', () => {
 		);
 	});
 
-	it('should throw if given coverage area coordinates is not an array', () => {
+	it('should throw if given coverage area coordinates is not an array of numbers', () => {
 		const invalidCoverageArea = {
 			type: 'MultiPolygon',
 			coordinates: {},
@@ -33,7 +33,7 @@ describe('CoverageArea value object', () => {
 		);
 	});
 
-	it(`should throw if any coordinates' polygon is not an array`, () => {
+	it(`should throw if any coordinates' polygon is not an array of numbers`, () => {
 		const invalidCoverageArea = {
 			type: 'MultiPolygon',
 			coordinates: [
@@ -49,7 +49,7 @@ describe('CoverageArea value object', () => {
 		);
 	});
 
-	it(`should throw if any polygon's ring is not an array`, () => {
+	it(`should throw if any polygon's ring is not an array pf numbers`, () => {
 		const invalidCoverageArea = {
 			type: 'MultiPolygon',
 			coordinates: [
@@ -63,6 +63,30 @@ describe('CoverageArea value object', () => {
 			() => CoverageArea.create(invalidCoverageArea),
 			new CoverageAreaError(
 				'Each ring in a polygon must be an array of numbers.',
+			),
+		);
+	});
+
+	it('should throw if any position in a ring is not an array of two numbers', () => {
+		const invalidCoverageArea = {
+			type: 'MultiPolygon',
+			coordinates: [
+				[
+					[
+						[30, 20],
+						[45, 40],
+						[10, 40],
+						[30, 20],
+						[30], // invalid position
+					],
+				],
+			],
+		} as MultiPolygon;
+
+		throws(
+			() => CoverageArea.create(invalidCoverageArea),
+			new CoverageAreaError(
+				'Each position in a ring must be an array of two numbers.',
 			),
 		);
 	});
