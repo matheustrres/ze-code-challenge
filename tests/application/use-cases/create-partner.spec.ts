@@ -4,6 +4,8 @@ import { beforeEach, describe, it } from 'node:test';
 import { PartnerFoundError } from '@/application/errors/partner-found';
 import { CreatePartnerUseCase } from '@/application/use-cases/create-partner';
 
+import { DocumentError } from '@/domain/errors/document';
+
 import { PartnerBuilder } from '#/data/builders/entities/partner';
 import {
 	type InMemoryPartnersRepository,
@@ -42,12 +44,26 @@ describe('CreatePartner use case', () => {
 			() =>
 				sut.useCase.exec({
 					ownerName: 'John Doe',
-					tradingName: 'Zé Deliverer',
+					tradingName: 'Zé Delivery',
 					address: [30, 30],
 					coverageArea: [],
 					document,
 				}),
 			PartnerFoundError.byDocument(document),
+		);
+	});
+
+	it('should throw if entered document is invalid', async () => {
+		rejects(
+			() =>
+				sut.useCase.exec({
+					ownerName: 'John Doe',
+					tradingName: 'Zé Delivery',
+					address: [30, 30],
+					coverageArea: [],
+					document: '11257245286',
+				}),
+			new DocumentError('Invalid CPF value.'),
 		);
 	});
 });
