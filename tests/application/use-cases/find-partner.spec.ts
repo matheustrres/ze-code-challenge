@@ -6,17 +6,17 @@ import { FindPartnerByIdUseCase } from '@/application/use-cases/find-partner';
 
 import { PartnerBuilder } from '#/data/builders/entities/partner';
 import {
-	type InMemoryPartnersRepository,
-	makeInMemoryPartnersRepository,
-} from '#/data/repositories/in-memory/partners-repository';
+	type MockedPartnersRepository,
+	makeMockedPartnersRepository,
+} from '#/data/mocks/repositories/partners-repository';
 
 type SUT = {
-	partnersRepository: InMemoryPartnersRepository;
+	partnersRepository: MockedPartnersRepository;
 	useCase: FindPartnerByIdUseCase;
 };
 
 function makeSUT(): SUT {
-	const partnersRepository = makeInMemoryPartnersRepository();
+	const partnersRepository = makeMockedPartnersRepository();
 
 	return {
 		partnersRepository,
@@ -32,6 +32,8 @@ describe('FindPartnerById use case', () => {
 	});
 
 	it('should throw if no partner is found through given ID', () => {
+		sut.partnersRepository.findById.mock.mockImplementationOnce(() => null);
+
 		rejects(
 			() =>
 				sut.useCase.exec({
@@ -44,7 +46,7 @@ describe('FindPartnerById use case', () => {
 	it('should find a partner by given ID', async () => {
 		const partner = new PartnerBuilder().build();
 
-		await sut.partnersRepository.upsert(partner);
+		sut.partnersRepository.findById.mock.mockImplementationOnce(() => partner);
 
 		const { partner: foundPartner } = await sut.useCase.exec({
 			id: partner.id.toString(),

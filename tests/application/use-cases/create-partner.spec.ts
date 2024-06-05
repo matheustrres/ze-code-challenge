@@ -12,17 +12,17 @@ import { DocumentError } from '@/domain/errors/document';
 
 import { PartnerBuilder } from '#/data/builders/entities/partner';
 import {
-	type InMemoryPartnersRepository,
-	makeInMemoryPartnersRepository,
-} from '#/data/repositories/in-memory/partners-repository';
+	type MockedPartnersRepository,
+	makeMockedPartnersRepository,
+} from '#/data/mocks/repositories/partners-repository';
 
 type SUT = {
-	partnersRepository: InMemoryPartnersRepository;
+	partnersRepository: MockedPartnersRepository;
 	useCase: CreatePartnerUseCase;
 };
 
 function makeSUT(): SUT {
-	const partnersRepository = makeInMemoryPartnersRepository();
+	const partnersRepository = makeMockedPartnersRepository();
 
 	return {
 		partnersRepository,
@@ -37,10 +37,12 @@ describe('CreatePartner use case', () => {
 		sut = makeSUT();
 	});
 
-	it('should throw if entered document is already in use by another partner', async () => {
+	it('should throw if entered document is already in use by another partner', () => {
 		const partner = new PartnerBuilder().build();
 
-		await sut.partnersRepository.upsert(partner);
+		sut.partnersRepository.findByDocument.mock.mockImplementationOnce(
+			() => partner,
+		);
 
 		const document = partner.getProps().document.props.value;
 
@@ -58,6 +60,8 @@ describe('CreatePartner use case', () => {
 	});
 
 	it('should throw if entered document is invalid', () => {
+		sut.partnersRepository.findById.mock.mockImplementationOnce(() => null);
+
 		rejects(
 			() =>
 				sut.useCase.exec({
@@ -72,6 +76,8 @@ describe('CreatePartner use case', () => {
 	});
 
 	it('should throw if entered coverage area coordinates are invalid', () => {
+		sut.partnersRepository.findById.mock.mockImplementationOnce(() => null);
+
 		rejects(
 			() =>
 				sut.useCase.exec({
@@ -88,6 +94,8 @@ describe('CreatePartner use case', () => {
 	});
 
 	it('should throw if entered address coordinates are invalid', () => {
+		sut.partnersRepository.findById.mock.mockImplementationOnce(() => null);
+
 		rejects(
 			() =>
 				sut.useCase.exec({
@@ -120,6 +128,8 @@ describe('CreatePartner use case', () => {
 	});
 
 	it('should create a new partner', async () => {
+		sut.partnersRepository.findById.mock.mockImplementationOnce(() => null);
+
 		const { partner } = await sut.useCase.exec({
 			ownerName: 'John Doe',
 			tradingName: 'Zé Delivery',
