@@ -1,7 +1,7 @@
-export class DocumentError extends Error {
-	constructor(message: string) {
-		super(`DocumentError: ${message}`);
+import { ServerError } from '@/core/domain/errors/server-error';
 
-		Error.captureStackTrace(this, this.constructor);
+export class DocumentError extends ServerError {
+	constructor(message: string) {
+		super(`DocumentError: ${message}`, 400);
 	}
 }

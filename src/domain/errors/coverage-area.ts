@@ -1,7 +1,7 @@
-export class CoverageAreaError extends Error {
-	constructor(message: string) {
-		super(`CoverageAreaError: ${message}`);
+import { ServerError } from '@/core/domain/errors/server-error';
 
-		Error.captureStackTrace(this, this.constructor);
+export class CoverageAreaError extends ServerError {
+	constructor(message: string) {
+		super(`CoverageAreaError: ${message}`, 400);
 	}
 }

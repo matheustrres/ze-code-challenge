@@ -1,7 +1,7 @@
-export class AddressError extends Error {
-	constructor(message: string) {
-		super(`AddressError: ${message}`);
+import { ServerError } from '@/core/domain/errors/server-error';
 
-		Error.captureStackTrace(this, this.constructor);
+export class AddressError extends ServerError {
+	constructor(message: string) {
+		super(`AddressError: ${message}`, 400);
 	}
 }
