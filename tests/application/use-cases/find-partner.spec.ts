@@ -1,9 +1,10 @@
-import { rejects } from 'node:assert';
+import { deepStrictEqual, rejects } from 'node:assert';
 import { beforeEach, describe, it } from 'node:test';
 
 import { PartnerNotFoundError } from '@/application/errors/partner-not-found';
 import { FindPartnerByIdUseCase } from '@/application/use-cases/find-partner';
 
+import { PartnerBuilder } from '#/data/builders/entities/partner';
 import {
 	type InMemoryPartnersRepository,
 	makeInMemoryPartnersRepository,
@@ -38,5 +39,17 @@ describe('FindPartnerById use case', () => {
 				}),
 			PartnerNotFoundError.byId('invalid_partner_uuid'),
 		);
+	});
+
+	it('should find a partner by given ID', async () => {
+		const partner = new PartnerBuilder().build();
+
+		await sut.partnersRepository.upsert(partner);
+
+		const { partner: foundPartner } = await sut.useCase.exec({
+			id: partner.id.toString(),
+		});
+
+		deepStrictEqual(foundPartner, partner);
 	});
 });
