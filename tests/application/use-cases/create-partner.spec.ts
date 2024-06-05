@@ -1,4 +1,4 @@
-import { rejects } from 'node:assert';
+import { deepStrictEqual, rejects } from 'node:assert';
 import { beforeEach, describe, it } from 'node:test';
 
 import { PartnerFoundError } from '@/application/errors/partner-found';
@@ -117,5 +117,39 @@ describe('CreatePartner use case', () => {
 				}),
 			new AddressError('Address coordinates must be an array of two numbers.'),
 		);
+	});
+
+	it('should create a new partner', async () => {
+		const { partner } = await sut.useCase.exec({
+			ownerName: 'John Doe',
+			tradingName: 'Zé Delivery',
+			address: [30, 20],
+			coverageArea: [
+				[
+					[
+						[30, 20],
+						[45, 40],
+						[10, 40],
+						[30, 20],
+					],
+				],
+				[
+					[
+						[15, 5],
+						[40, 10],
+						[10, 20],
+						[5, 10],
+						[15, 5],
+					],
+				],
+			],
+			document: '040.365.820-97',
+		});
+
+		const { ownerName, tradingName, document } = partner.getProps();
+
+		deepStrictEqual(ownerName, 'John Doe');
+		deepStrictEqual(tradingName, 'Zé Delivery');
+		deepStrictEqual(document.props.value, '040.365.820-97');
 	});
 });
