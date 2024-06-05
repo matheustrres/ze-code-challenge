@@ -1,9 +1,10 @@
-import { rejects } from 'node:assert';
+import { deepStrictEqual, rejects } from 'node:assert';
 import { beforeEach, describe, it } from 'node:test';
 
 import { PartnerNotFoundError } from '@/application/errors/partner-not-found';
 import { SearchNearestPartnerUseCase } from '@/application/use-cases/search-nearest-partner';
 
+import { PartnerBuilder } from '#/data/builders/entities/partner';
 import {
 	type MockedPartnersRepository,
 	makeMockedPartnersRepository,
@@ -44,5 +45,20 @@ describe('SearchNearestPartner use case', () => {
 			() => sut.useCase.exec(location),
 			PartnerNotFoundError.byLocation(location),
 		);
+	});
+
+	it('should find a partner that covers the given location', async () => {
+		const partner = new PartnerBuilder().build();
+
+		sut.partnersRepository.findNearestByLocation.mock.mockImplementationOnce(
+			() => partner,
+		);
+
+		const { partner: foundPartner } = await sut.useCase.exec({
+			lat: 48.862725,
+			lng: 2.287592,
+		});
+
+		deepStrictEqual(foundPartner, partner);
 	});
 });
