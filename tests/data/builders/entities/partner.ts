@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker';
 import { Partner, type PartnerProps } from '@/domain/entities/partner';
 import { Address } from '@/domain/entities/value-objects/address';
 import { CoverageArea } from '@/domain/entities/value-objects/coverage-area';
+import { Document } from '@/domain/entities/value-objects/document';
 
 import { Builder } from '#/core/globals/builder';
 
@@ -10,7 +11,9 @@ export class PartnerBuilder extends Builder<PartnerProps, Partner> {
 	protected $input: PartnerProps = {
 		tradingName: faker.company.name(),
 		ownerName: faker.person.fullName(),
-		document: '1432132123891/0001-40',
+		document: Document.create({
+			value: '71.527.148/0001-27',
+		}),
 		coverageArea: CoverageArea.create({
 			type: 'MultiPolygon',
 			coordinates: [
@@ -49,7 +52,7 @@ export class PartnerBuilder extends Builder<PartnerProps, Partner> {
 		return this;
 	}
 
-	withDocument(document: string): this {
+	withDocument(document: Document): this {
 		this.$input.document = document;
 		return this;
 	}

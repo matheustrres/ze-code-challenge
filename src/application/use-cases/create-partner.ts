@@ -10,6 +10,7 @@ import { type UseCase } from '@/core/contracts/use-case';
 import { Partner } from '@/domain/entities/partner';
 import { Address } from '@/domain/entities/value-objects/address';
 import { CoverageArea } from '@/domain/entities/value-objects/coverage-area';
+import { Document } from '@/domain/entities/value-objects/document';
 
 export class CreatePartnerUseCase
 	implements UseCase<CreatePartnerInput, CreatePartnerOutput>
@@ -23,6 +24,16 @@ export class CreatePartnerUseCase
 
 		if (foundPartnerByDoc) {
 			throw PartnerFoundError.byDocument(input.document);
+		}
+
+		let document: Document;
+
+		try {
+			document = Document.create({
+				value: input.document,
+			});
+		} catch (error) {
+			throw error;
 		}
 
 		let coverageArea: CoverageArea;
@@ -49,6 +60,7 @@ export class CreatePartnerUseCase
 
 		const partner = Partner.create({
 			...input,
+			document,
 			coverageArea,
 			address,
 		});

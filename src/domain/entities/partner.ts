@@ -1,13 +1,14 @@
 import { PartnerId } from './partner-id';
 import { type Address } from './value-objects/address';
 import { type CoverageArea } from './value-objects/coverage-area';
+import { type Document } from './value-objects/document';
 
 import { type CreateEntityProps, Entity } from '@/core/domain/entity';
 
 export type PartnerProps = {
 	tradingName: string;
 	ownerName: string;
-	document: string;
+	document: Document;
 	coverageArea: CoverageArea;
 	address: Address;
 };
