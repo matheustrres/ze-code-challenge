@@ -11,3 +11,8 @@ export type MultiPolygon = {
 	type: 'MultiPolygon';
 	coordinates: Position[][][];
 };
+
+export type Location = {
+	lat: number;
+	lng: number;
+};
