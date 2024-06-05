@@ -8,7 +8,7 @@ import { PartnerBuilder } from '#/data/builders/entities/partner';
 import {
 	type MockedPartnersRepository,
 	makeMockedPartnersRepository,
-} from '#/data/builders/mocks/repositories/partners-repository';
+} from '#/data/mocks/repositories/partners-repository';
 
 type SUT = {
 	partnersRepository: MockedPartnersRepository;
