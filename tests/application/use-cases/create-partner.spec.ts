@@ -6,6 +6,7 @@ import { CreatePartnerUseCase } from '@/application/use-cases/create-partner';
 
 import { type Position } from '@/core/domain/types';
 
+import { AddressError } from '@/domain/errors/address';
 import { CoverageAreaError } from '@/domain/errors/coverage-area';
 import { DocumentError } from '@/domain/errors/document';
 
@@ -83,6 +84,38 @@ describe('CreatePartner use case', () => {
 			new CoverageAreaError(
 				'Coverage area coordinates must be an array of numbers.',
 			),
+		);
+	});
+
+	it('should throw if entered address coordinates are invalid', () => {
+		rejects(
+			() =>
+				sut.useCase.exec({
+					ownerName: 'John Doe',
+					tradingName: 'Zé Delivery',
+					address: [],
+					coverageArea: [
+						[
+							[
+								[30, 20],
+								[45, 40],
+								[10, 40],
+								[30, 20],
+							],
+						],
+						[
+							[
+								[15, 5],
+								[40, 10],
+								[10, 20],
+								[5, 10],
+								[15, 5],
+							],
+						],
+					],
+					document: '040.365.820-97',
+				}),
+			new AddressError('Address coordinates must be an array of two numbers.'),
 		);
 	});
 });
