@@ -16,3 +16,13 @@ export type Location = {
 	lat: number;
 	lng: number;
 };
+
+export type DatabaseConfig = {
+	auth: {
+		user: string;
+		pwd: string;
+	};
+	name: string;
+	port: number;
+	URI: string;
+};

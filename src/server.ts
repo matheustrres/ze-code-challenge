@@ -3,13 +3,22 @@ import './shared/utils/alias';
 import http from 'node:http';
 
 import { App } from './app';
+import { Database } from './infra/drivers/db';
+import { seedPdvs } from './infra/drivers/db/seed';
 import { makeHealthController } from './main/factories/controllers/health';
 
 import { Logger } from '@/shared/utils/logger';
 
 const logger = new Logger('Server');
 
-(() => {
+(async () => {
+	try {
+		await Database.createConnection();
+		await seedPdvs();
+	} catch (error) {
+		logger.error(`Error while seeding database: ${error}`);
+	}
+
 	const app = new App({
 		controllers: [makeHealthController()],
 	});
