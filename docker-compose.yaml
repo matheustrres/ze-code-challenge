@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: 'bitnami/mongodb:latest'
+    restart: always
+    environment:
+      - MONGODB_ROOT_USER=${MONGODB_USER}
+      - MONGODB_ROOT_PASSWORD=${MONGODB_PASSWORD}
+      - MONGODB_DATABASE=${MONGODB_DATABASE}
+    volumes:
+      - './db/data/db-files:/data/db'
+      - './db/init/:/docker-entrypoint-initdb.d/'
+    ports:
+      - ${MONGODB_PORT}:${MONGODB_PORT}
+    networks:
+      - app-tier
+
+networks:
+  app-tier:
+    driver: bridge
