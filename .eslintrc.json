@@ -28,6 +28,7 @@
 					"index",
 					"sibling",
 					"parent",
+					"/^@/application/",
 					"/^@/core/",
 					"/^@/domain/",
 					"/^@/infra/",
