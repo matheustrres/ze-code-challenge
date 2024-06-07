@@ -37,9 +37,9 @@ describe('FindPartnerById use case', () => {
 		rejects(
 			() =>
 				sut.useCase.exec({
-					id: 'invalid_partner_uuid',
+					id: 1,
 				}),
-			PartnerNotFoundError.byId('invalid_partner_uuid'),
+			PartnerNotFoundError.byId(1),
 		);
 	});
 
@@ -49,7 +49,7 @@ describe('FindPartnerById use case', () => {
 		sut.partnersRepository.findById.mock.mockImplementationOnce(() => partner);
 
 		const { partner: foundPartner } = await sut.useCase.exec({
-			id: partner.id.toString(),
+			id: partner.id.toNumber(),
 		});
 
 		deepStrictEqual(foundPartner, partner);

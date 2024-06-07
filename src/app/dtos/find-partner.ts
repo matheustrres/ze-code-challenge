@@ -1,7 +1,7 @@
 import { type Partner } from '@/domain/entities/partner';
 
 export type FindPartnerByIdUseCaseInput = {
-	id: string;
+	id: number;
 };
 
 export type FindPartnerByIdUseCaseOutput = {

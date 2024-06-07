@@ -1,6 +1,6 @@
 import { type UniqueId } from '../contracts/unique-id';
 
-type Id = string | number;
+type Id = number;
 
 export class EntityId implements UniqueId<EntityId> {
 	readonly #value: Id;
@@ -10,14 +10,10 @@ export class EntityId implements UniqueId<EntityId> {
 	}
 
 	equalsTo(id: EntityId): boolean {
-		return this.toString() === id.toString();
+		return this.toNumber() === id.toNumber();
 	}
 
-	toString(): string {
-		return this.#value.toString();
-	}
-
-	toNumber(): number {
-		return parseInt(this.toString());
+	toNumber() {
+		return this.#value;
 	}
 }

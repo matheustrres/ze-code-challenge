@@ -6,7 +6,7 @@ export class PartnerNotFoundError extends ServerError {
 		super(message, statusCode);
 	}
 
-	static byId(id: string): PartnerNotFoundError {
+	static byId(id: number): PartnerNotFoundError {
 		return new PartnerNotFoundError(`No partner with ID "${id}" was found.`);
 	}
 
