@@ -1,8 +1,8 @@
 import { deepStrictEqual, rejects } from 'node:assert';
 import { beforeEach, describe, it } from 'node:test';
 
-import { PartnerNotFoundError } from '@/application/errors/partner-not-found';
-import { FindPartnerByIdUseCase } from '@/application/use-cases/find-partner';
+import { PartnerNotFoundError } from '@/app/errors/partner-not-found';
+import { FindPartnerByIdUseCase } from '@/app/use-cases/find-partner';
 
 import { PartnerBuilder } from '#/data/builders/entities/partner';
 import {

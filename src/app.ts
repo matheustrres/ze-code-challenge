@@ -2,7 +2,7 @@ import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 
-import { Controller } from '@/core/contracts/controller';
+import { Controller } from '@/@core/contracts/controller';
 
 import { Logger } from '@/shared/utils/logger';
 

@@ -1,7 +1,7 @@
 import { deepStrictEqual } from 'node:assert';
 import { describe, it } from 'node:test';
 
-import { BrazilianUtils } from '@/libs/brazilian-utils';
+import { BrazilianUtils } from '@/@libs/brazilian-utils';
 
 describe('BrazilianUtils lib', () => {
 	describe('.isValidCPF', () => {

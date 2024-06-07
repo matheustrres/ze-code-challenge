@@ -1,11 +1,11 @@
+import { type UseCase } from '@/@core/contracts/use-case';
+
 import {
 	type SearchNearestPartnerUseCaseInput,
 	type SearchNearestPartnerUseCaseOutput,
-} from '../dtos/search-nearest-partner';
-import { PartnerNotFoundError } from '../errors/partner-not-found';
-import { type PartnersRepository } from '../partners-repository';
-
-import { type UseCase } from '@/core/contracts/use-case';
+} from '@/app/dtos/search-nearest-partner';
+import { PartnerNotFoundError } from '@/app/errors/partner-not-found';
+import { type PartnersRepository } from '@/app/partners-repository';
 
 export class SearchNearestPartnerUseCase
 	implements

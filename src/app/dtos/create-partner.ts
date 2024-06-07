@@ -1,4 +1,4 @@
-import { type Position } from '@/core/domain/types';
+import { type Position } from '@/@core/domain/types';
 
 import { type Partner } from '@/domain/entities/partner';
 

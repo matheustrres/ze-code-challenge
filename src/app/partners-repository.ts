@@ -1,5 +1,5 @@
-import { type Repository } from '@/core/contracts/repository';
-import { type Location } from '@/core/domain/types';
+import { type Repository } from '@/@core/contracts/repository';
+import { type Location } from '@/@core/domain/types';
 
 import { type Partner } from '@/domain/entities/partner';
 

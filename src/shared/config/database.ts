@@ -1,4 +1,4 @@
-import { type DatabaseConfig } from '@/core/domain/types';
+import { type DatabaseConfig } from '@/@core/domain/types';
 
 const { MONGODB_USER, MONGODB_PASSWORD, MONGODB_DATABASE, MONGODB_PORT } =
 	process.env;

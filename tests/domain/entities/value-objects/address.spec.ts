@@ -1,7 +1,7 @@
 import { throws } from 'node:assert';
 import { describe, it } from 'node:test';
 
-import { type Point } from '@/core/domain/types';
+import { type Point } from '@/@core/domain/types';
 
 import { Address } from '@/domain/entities/value-objects/address';
 import { AddressError } from '@/domain/errors/address';

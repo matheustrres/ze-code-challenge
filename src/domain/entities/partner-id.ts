@@ -1,4 +1,4 @@
-import { EntityId } from '@/core/domain/entity-id';
+import { EntityId } from '@/@core/domain/entity-id';
 
 import { genNumericId } from '@/shared/utils/funcs/numeric-id';
 

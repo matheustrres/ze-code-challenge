@@ -6,7 +6,7 @@ import { type AnyBulkWriteOperation } from 'mongoose';
 import { Database } from './database';
 import { PartnerModel, type PartnerWithId } from './models/partner';
 
-import { type MultiPolygon, type Point } from '@/core/domain/types';
+import { type MultiPolygon, type Point } from '@/@core/domain/types';
 
 import { Logger } from '@/shared/utils/logger';
 

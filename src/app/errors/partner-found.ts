@@ -1,4 +1,4 @@
-import { ServerError } from '@/core/domain/errors/server-error';
+import { ServerError } from '@/@core/domain/errors/server-error';
 
 export class PartnerFoundError extends ServerError {
 	private constructor(message: string, statusCode = 400) {

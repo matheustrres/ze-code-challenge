@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
 
-import { Controller } from '@/core/contracts/controller';
+import { Controller } from '@/@core/contracts/controller';
 
 type HealthCheck = {
 	timestamp: string;

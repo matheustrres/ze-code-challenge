@@ -1,7 +1,7 @@
 import { deepStrictEqual, throws } from 'node:assert';
 import { describe, it } from 'node:test';
 
-import { type MultiPolygon } from '@/core/domain/types';
+import { type MultiPolygon } from '@/@core/domain/types';
 
 import { CoverageArea } from '@/domain/entities/value-objects/coverage-area';
 import { CoverageAreaError } from '@/domain/errors/coverage-area';

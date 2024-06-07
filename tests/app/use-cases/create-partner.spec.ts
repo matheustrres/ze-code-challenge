@@ -1,10 +1,10 @@
 import { deepStrictEqual, rejects } from 'node:assert';
 import { beforeEach, describe, it } from 'node:test';
 
-import { PartnerFoundError } from '@/application/errors/partner-found';
-import { CreatePartnerUseCase } from '@/application/use-cases/create-partner';
+import { type Position } from '@/@core/domain/types';
 
-import { type Position } from '@/core/domain/types';
+import { PartnerFoundError } from '@/app/errors/partner-found';
+import { CreatePartnerUseCase } from '@/app/use-cases/create-partner';
 
 import { AddressError } from '@/domain/errors/address';
 import { CoverageAreaError } from '@/domain/errors/coverage-area';

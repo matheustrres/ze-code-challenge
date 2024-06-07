@@ -1,5 +1,5 @@
-import { ServerError } from '@/core/domain/errors/server-error';
-import { type Location } from '@/core/domain/types';
+import { ServerError } from '@/@core/domain/errors/server-error';
+import { type Location } from '@/@core/domain/types';
 
 export class PartnerNotFoundError extends ServerError {
 	private constructor(message: string, statusCode = 400) {

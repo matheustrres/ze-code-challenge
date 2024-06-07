@@ -2,7 +2,7 @@ import { mock, type Mock } from 'node:test';
 
 import { type MockedCoreRepository } from './repository';
 
-import { type PartnersRepository } from '@/application/partners-repository';
+import { type PartnersRepository } from '@/app/partners-repository';
 
 import { type Partner } from '@/domain/entities/partner';
 

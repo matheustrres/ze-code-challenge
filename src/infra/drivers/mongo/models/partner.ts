@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-import { type MultiPolygon, type Point } from '@/core/domain/types';
+import { type MultiPolygon, type Point } from '@/@core/domain/types';
 
 export type PartnerWithId = {
 	id: number;

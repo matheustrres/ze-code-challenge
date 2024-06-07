@@ -5,7 +5,7 @@ import { Address } from '@/domain/entities/value-objects/address';
 import { CoverageArea } from '@/domain/entities/value-objects/coverage-area';
 import { Document } from '@/domain/entities/value-objects/document';
 
-import { Builder } from '#/core/globals/builder';
+import { Builder } from '#/@core/globals/builder';
 
 export class PartnerBuilder extends Builder<PartnerProps, Partner> {
 	protected $input: PartnerProps = {

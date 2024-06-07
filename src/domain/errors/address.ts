@@ -1,4 +1,4 @@
-import { ServerError } from '@/core/domain/errors/server-error';
+import { ServerError } from '@/@core/domain/errors/server-error';
 
 export class AddressError extends ServerError {
 	constructor(message: string) {

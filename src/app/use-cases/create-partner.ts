@@ -1,11 +1,11 @@
+import { type UseCase } from '@/@core/contracts/use-case';
+
 import {
 	type CreatePartnerInput,
 	type CreatePartnerOutput,
-} from '../dtos/create-partner';
-import { PartnerFoundError } from '../errors/partner-found';
-import { type PartnersRepository } from '../partners-repository';
-
-import { type UseCase } from '@/core/contracts/use-case';
+} from '@/app/dtos/create-partner';
+import { PartnerFoundError } from '@/app/errors/partner-found';
+import { type PartnersRepository } from '@/app/partners-repository';
 
 import { Partner } from '@/domain/entities/partner';
 import { Address } from '@/domain/entities/value-objects/address';

@@ -1,5 +1,5 @@
-import { type Point } from '@/core/domain/types';
-import { ValueObject } from '@/core/domain/value-object';
+import { type Point } from '@/@core/domain/types';
+import { ValueObject } from '@/@core/domain/value-object';
 
 import { AddressError } from '@/domain/errors/address';
 

@@ -1,8 +1,8 @@
-import { ValueObject } from '@/core/domain/value-object';
+import { ValueObject } from '@/@core/domain/value-object';
+
+import { BrazilianUtils } from '@/@libs/brazilian-utils';
 
 import { DocumentError } from '@/domain/errors/document';
-
-import { BrazilianUtils } from '@/libs/brazilian-utils';
 
 import { clearString } from '@/shared/utils/funcs/clear-string';
 

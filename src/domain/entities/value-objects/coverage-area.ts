@@ -1,5 +1,5 @@
-import { type MultiPolygon } from '@/core/domain/types';
-import { ValueObject } from '@/core/domain/value-object';
+import { type MultiPolygon } from '@/@core/domain/types';
+import { ValueObject } from '@/@core/domain/value-object';
 
 import { CoverageAreaError } from '@/domain/errors/coverage-area';
 
