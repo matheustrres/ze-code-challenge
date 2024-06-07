@@ -3,21 +3,15 @@ import './shared/utils/alias';
 import http from 'node:http';
 
 import { App } from './app';
-import { Database } from './infra/drivers/db';
-import { seedPdvs } from './infra/drivers/db/seed';
+import { Database } from './infra/drivers/mongo/database';
 import { makeHealthController } from './main/factories/controllers/health';
 
 import { Logger } from '@/shared/utils/logger';
 
-const logger = new Logger('Server');
+const logger = new Logger('SERVER');
 
 (async () => {
-	try {
-		await Database.createConnection();
-		await seedPdvs();
-	} catch (error) {
-		logger.error(`Error while seeding database: ${error}`);
-	}
+	await Database.connect();
 
 	const app = new App({
 		controllers: [makeHealthController()],
@@ -31,7 +25,8 @@ const logger = new Logger('Server');
 		logger.info(`Server listening on port ${port}.`);
 	});
 
-	httpServer.on('error', (err: Error) => {
-		logger.error(`Error while listening on port 3000: ${err.message}`);
+	process.on('SIGINT', async () => {
+		await Database.disconnect();
+		process.exit(0);
 	});
 })();

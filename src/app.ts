@@ -14,7 +14,7 @@ type AppOptions = {
 export class App {
 	#app!: express.Application;
 
-	readonly #logger = new Logger('App');
+	readonly #logger = new Logger('APP');
 
 	static validate({ controllers }: AppOptions) {
 		if (!controllers.length || !Array.isArray(controllers)) {

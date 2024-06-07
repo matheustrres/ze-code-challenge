@@ -11,16 +11,17 @@
 		"pnpm": ">=9.1.1"
 	},
 	"scripts": {
+		"build": "swc ./src --out-dir ./dist --strip-leading-paths",
 		"format": "prettier --write \"{src,tests}/**/*.ts\"",
 		"lint": "eslint \"{src,tests}/**/*.ts\" --fix",
 		"precommit": "lint-staged",
 		"prepush": "test",
 		"prestart": "rm -rf dist && pnpm build",
-		"build": "swc ./src --out-dir ./dist --strip-leading-paths",
 		"prepare": "husky install",
-		"start": "NODE_ENV=production node .",
-		"start:dev": "NODE_ENV=development tsx --watch --env-file=.env.dev src/server.ts",
-		"test": "NODE_ENV=testing glob -c \"node --import tsx --no-warnings --test\" \"./tests/**/*.{spec,test}.ts\""
+		"db:seed": "node --env-file=.env ./dist/infra/drivers/mongo/seed.js",
+		"start": "node --env-file=.env .",
+		"start:dev": "tsx --watch --env-file=.env.dev src/server.ts",
+		"test": "glob -c \"node --import tsx --no-warnings --test\" \"./tests/**/*.{spec,test}.ts\""
 	},
 	"dependencies": {
 		"@brazilian-utils/brazilian-utils": "1.0.0-rc.12",

@@ -4,17 +4,40 @@ import { dbConfig } from '@/shared/config/database';
 import { Logger } from '@/shared/utils/logger';
 
 export class Database {
-	static readonly logger = new Logger('Database');
+	static readonly logger = new Logger('DATABASE');
 
 	static #instance: Mongoose | null = null;
 
 	private constructor() {}
 
-	static async createConnection(): Promise<Mongoose> {
-		if (Database.#instance) {
-			return Database.#instance;
-		}
+	static async connect() {
+		return this.#getConnection() ?? this.#createConnection();
+	}
 
+	static async disconnect(): Promise<void> {
+		if (Database.#instance) {
+			try {
+				await Database.#instance.connection.close();
+				Database.#resetConnection();
+
+				Database.logger.info('MongoDB connection closed.');
+			} catch (error) {
+				Database.logger.error(
+					`Error closing the database connection: ${error}`,
+				);
+
+				throw error;
+			}
+		} else {
+			Database.logger.info('MongoDB connection closed.');
+		}
+	}
+
+	static #getConnection(): Mongoose | null {
+		return Database.#instance;
+	}
+
+	static async #createConnection() {
 		try {
 			Database.#instance = await connect(dbConfig.URI, {
 				serverSelectionTimeoutMS: 30_000,
@@ -34,23 +57,6 @@ export class Database {
 		}
 	}
 
-	static async closeConnection(): Promise<void> {
-		if (Database.#instance) {
-			try {
-				await Database.#instance.connection.close();
-
-				Database.logger.info('MongoDB Connection closed.');
-
-				Database.#resetConnection();
-			} catch (error) {
-				Database.logger.error(
-					`Error closing the database connection: ${error}`,
-				);
-				throw error;
-			}
-		}
-	}
-
 	static #addConnectionHandlers(mongoose: Mongoose): void {
 		mongoose.connection.on('open', () =>
 			Database.logger.info('MongoDB connection opened.'),
@@ -67,6 +73,5 @@ export class Database {
 
 	static #resetConnection(): void {
 		Database.#instance = null;
-		Database.logger.warn('Connection reseted.');
 	}
 }
