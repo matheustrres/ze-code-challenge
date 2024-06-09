@@ -26,6 +26,12 @@ importers:
       mongoose:
         specifier: ^8.4.1
         version: 8.4.1
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
+      zod-express-middleware:
+        specifier: ^1.4.0
+        version: 1.4.0(@types/express@4.17.21)(express@4.19.2)(zod@3.23.8)
     devDependencies:
       '@faker-js/faker':
         specifier: ^8.4.1
@@ -1819,6 +1825,16 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod-express-middleware@1.4.0:
+    resolution: {integrity: sha512-C1pBbwbuotitG1L3I1cr9QD/nuepHAdZEUbVn7y1o2cJq0oaUuS7gTVGby1+DGHL4t2P4eEZKCX0QQDv6hEs3A==}
+    peerDependencies:
+      '@types/express': ^4.17.12
+      express: ^4.17.1
+      zod: ^3.2.0
+
+  zod@3.23.8:
+    resolution: {integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==}
+
 snapshots:
 
   '@brazilian-utils/brazilian-utils@1.0.0-rc.12': {}
@@ -3514,3 +3530,11 @@ snapshots:
   yaml@2.3.4: {}
 
   yocto-queue@0.1.0: {}
+
+  zod-express-middleware@1.4.0(@types/express@4.17.21)(express@4.19.2)(zod@3.23.8):
+    dependencies:
+      '@types/express': 4.17.21
+      express: 4.19.2
+      zod: 3.23.8
+
+  zod@3.23.8: {}
