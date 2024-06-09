@@ -1,9 +1,16 @@
 import { type Request, type Response } from 'express';
+import z from 'zod';
+import { validateRequestBody } from 'zod-express-middleware';
 
 import { Controller } from '@/@core/contracts/controller';
 
 import { type SearchNearestPartnerUseCaseInput } from '@/app/dtos/search-nearest-partner';
 import { type SearchNearestPartnerUseCase } from '@/app/use-cases/search-nearest-partner';
+
+const searchNearestPartnerSchema = z.object({
+	lat: z.number(),
+	lng: z.number(),
+});
 
 export class SearchNearestPartnerController extends Controller {
 	prefix = '/partners';
@@ -13,14 +20,18 @@ export class SearchNearestPartnerController extends Controller {
 	) {
 		super();
 
-		this.initRoutes();
+		this.$initRoute();
 	}
 
-	protected initRoutes(): void {
-		this.router.get(this.prefix, this.handle);
+	protected $initRoute(): void {
+		this.router.get(
+			this.prefix,
+			validateRequestBody(searchNearestPartnerSchema),
+			this.$handle,
+		);
 	}
 
-	handle = async (request: Request, response: Response): Promise<Response> => {
+	$handle = async (request: Request, response: Response): Promise<Response> => {
 		const input = request.body as SearchNearestPartnerUseCaseInput;
 		const { partner } = await this.searchNearestPartnerUseCase.exec(input);
 

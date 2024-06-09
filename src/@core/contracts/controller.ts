@@ -8,10 +8,10 @@ export abstract class Controller {
 		this.router = Router();
 	}
 
-	protected abstract handle(
+	protected abstract $handle(
 		request: Request,
 		response: Response,
 	): Promise<Response>;
 
-	protected abstract initRoutes(): void;
+	protected abstract $initRoute(): void;
 }

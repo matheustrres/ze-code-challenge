@@ -10,14 +10,14 @@ export class FindPartnerByIdController extends Controller {
 	constructor(private readonly findPartnerUseCase: FindPartnerByIdUseCase) {
 		super();
 
-		this.initRoutes();
+		this.$initRoute();
 	}
 
-	protected initRoutes(): void {
-		this.router.get(this.prefix, this.handle);
+	protected $initRoute(): void {
+		this.router.get(this.prefix, this.$handle);
 	}
 
-	handle = async (request: Request, response: Response): Promise<Response> => {
+	$handle = async (request: Request, response: Response): Promise<Response> => {
 		const id = Number(request.params['id']);
 
 		const { partner } = await this.findPartnerUseCase.exec({ id });
