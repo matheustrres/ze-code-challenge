@@ -14,14 +14,17 @@ export class HealthController extends Controller {
 	constructor() {
 		super();
 
-		this.initRoutes();
+		this.$initRoute();
 	}
 
-	protected initRoutes(): void {
-		this.router.get(this.prefix, this.handle);
+	protected $initRoute(): void {
+		this.router.get(this.prefix, this.$handle);
 	}
 
-	handle = async (_request: Request, response: Response): Promise<Response> => {
+	$handle = async (
+		_request: Request,
+		response: Response,
+	): Promise<Response> => {
 		const healthcheck: HealthCheck = {
 			timestamp: new Date().toISOString(),
 			status: 'OK',

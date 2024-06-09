@@ -1,4 +1,4 @@
-import { FindPartnerByIdController } from '@/infra/http/controllers/partners/find-partner';
+import { FindPartnerByIdController } from '@/infra/http/presenters/controllers/partners/find-partner';
 
 import { makeFindPartnerByIdUseCase } from '@/main/factories/use-cases/find-partner';
 

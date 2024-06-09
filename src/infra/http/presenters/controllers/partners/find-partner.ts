@@ -4,6 +4,8 @@ import { Controller } from '@/@core/contracts/controller';
 
 import { type FindPartnerByIdUseCase } from '@/app/use-cases/find-partner';
 
+import { PartnerViewModel } from '@/infra/http/presenters/view-models/partner';
+
 export class FindPartnerByIdController extends Controller {
 	prefix = '/partners/:id';
 
@@ -22,6 +24,6 @@ export class FindPartnerByIdController extends Controller {
 
 		const { partner } = await this.findPartnerUseCase.exec({ id });
 
-		return response.status(200).json(partner);
+		return response.status(200).json(PartnerViewModel.toJSON(partner));
 	};
 }

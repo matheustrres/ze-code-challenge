@@ -1,4 +1,4 @@
-import { CreatePartnerController } from '@/infra/http/controllers/partners/create-partner';
+import { CreatePartnerController } from '@/infra/http/presenters/controllers/partners/create-partner';
 
 import { makeCreatePartnerUseCase } from '@/main/factories/use-cases/create-partner';
 

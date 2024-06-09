@@ -7,6 +7,8 @@ import { Controller } from '@/@core/contracts/controller';
 import { type CreatePartnerInput } from '@/app/dtos/create-partner';
 import { type CreatePartnerUseCase } from '@/app/use-cases/create-partner';
 
+import { PartnerViewModel } from '@/infra/http/presenters/view-models/partner';
+
 const multiPolygonSchema = z.array(z.array(z.array(z.array(z.number()))));
 const pointSchema = z.array(z.number());
 
@@ -39,6 +41,6 @@ export class CreatePartnerController extends Controller {
 		const input = request.body as CreatePartnerInput;
 		const { partner } = await this.createPartnerUseCase.exec(input);
 
-		return response.status(201).json(partner);
+		return response.status(201).json(PartnerViewModel.toJSON(partner));
 	};
 }
