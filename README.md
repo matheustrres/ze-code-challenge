@@ -41,6 +41,12 @@ cp -r .env.sample .env.dev
 
 To preload the database with some data:
 
+- First, remember to build the project to its latest version
+
+```bash
+pnpm build
+```
+
 ```bash
 pnpm db:seed
 ```
