@@ -13,12 +13,11 @@ export class PartnerMapper implements Mapper<Partner, PartnerModel> {
 		return Partner.restore({
 			id: new EntityId(model.id),
 			props: {
-				...model,
+				ownerName: model.ownerName,
+				tradingName: model.tradingName,
 				address: Address.create(model.address),
 				coverageArea: CoverageArea.create(model.coverageArea),
-				document: Document.create({
-					value: model.document,
-				}),
+				document: Document.create({ value: model.document }),
 			},
 		});
 	}

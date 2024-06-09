@@ -17,46 +17,50 @@ export class MongoPartnersRepository implements PartnersRepository {
 	}
 
 	async find(): Promise<Partner[]> {
-		const data = (await this.#model.find()) || [];
+		const mongoPartners = (await this.#model.find<PartnerModel>()) || [];
 
-		return data.map(new PartnerMapper().toDomain);
+		return mongoPartners.map(new PartnerMapper().toDomain);
 	}
 
 	async findByDocument(document: string): Promise<Partner | null> {
-		const partner = await this.#model.findOne<Partner>({
+		const mongoPartner = await this.#model.findOne<PartnerModel>({
 			document,
 		});
 
-		if (!partner) return null;
+		if (!mongoPartner) return null;
 
-		return partner;
+		return new PartnerMapper().toDomain(mongoPartner);
 	}
 
 	async findById(id: number): Promise<Partner | null> {
-		const partner = await this.#model.findOne<Partner>({
+		const mongoPartner = await this.#model.findOne<PartnerModel>({
 			id,
 		});
 
-		if (!partner) return null;
+		console.log({ mongoPartner });
 
-		return partner;
+		if (!mongoPartner) return null;
+
+		return new PartnerMapper().toDomain(mongoPartner);
 	}
 
 	async findNearestByLocation({ lat, lng }: Location): Promise<Partner | null> {
-		const partnersCoveringLocation = await PartnerModel.find({
-			coverageArea: {
-				$geoIntersects: {
-					$geometry: {
-						type: 'Point',
-						coordinates: [lng, lat],
+		const mongoPartnersCoveringLocation = await PartnerModel.find<PartnerModel>(
+			{
+				coverageArea: {
+					$geoIntersects: {
+						$geometry: {
+							type: 'Point',
+							coordinates: [lng, lat],
+						},
 					},
 				},
 			},
-		}).exec();
+		).exec();
 
-		if (!partnersCoveringLocation.length) return null;
+		if (!mongoPartnersCoveringLocation.length) return null;
 
-		const nearestPartner = await PartnerModel.aggregate<Partner>([
+		const mongoNearestPartners = await PartnerModel.aggregate<PartnerModel>([
 			{
 				$geoNear: {
 					near: {
@@ -66,8 +70,8 @@ export class MongoPartnersRepository implements PartnersRepository {
 					distanceField: 'distance',
 					spherical: true,
 					query: {
-						_id: {
-							$in: partnersCoveringLocation.map((p) => p._id),
+						id: {
+							$in: mongoPartnersCoveringLocation.map((p) => p.id),
 						},
 					},
 				},
@@ -76,36 +80,9 @@ export class MongoPartnersRepository implements PartnersRepository {
 			{ $limit: 1 },
 		]);
 
-		return nearestPartner[0] || null;
+		if (!mongoNearestPartners.length) return null;
 
-		// const [nearestPartner] = await this.#model.aggregate([
-		// 	{
-		// 		$geoNear: {
-		// 			near: {
-		// 				type: 'Point',
-		// 				coordinates: [lng, lat],
-		// 			},
-		// 			distanceField: 'distance',
-		// 			spherical: true,
-		// 			query: {
-		// 				coverageArea: {
-		// 					$geoIntersects: {
-		// 						$geometry: {
-		// 							type: 'Point',
-		// 							coordinates: [lng, lat],
-		// 						},
-		// 					},
-		// 				},
-		// 			},
-		// 		},
-		// 	},
-		// 	{ $sort: { distance: 1 } },
-		// 	{ $limit: 1 },
-		// ]);
-
-		// if (!nearestPartner) return null;
-
-		// return nearestPartner;
+		return new PartnerMapper().toDomain(mongoNearestPartners[0]!);
 	}
 
 	async upsert(domainEntity: Partner): Promise<void> {
