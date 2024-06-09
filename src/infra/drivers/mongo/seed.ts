@@ -4,7 +4,8 @@ import { join } from 'node:path';
 import { type AnyBulkWriteOperation } from 'mongoose';
 
 import { Database } from './database';
-import { PartnerModel, type PartnerWithId } from './models/partner';
+import { PartnerMapper } from './mappers/partner-mapper';
+import { PartnerModel } from './models/partner';
 
 import { type MultiPolygon, type Point } from '@/@core/domain/types';
 
@@ -13,7 +14,7 @@ import { Logger } from '@/shared/utils/logger';
 const logger = new Logger('SEED');
 
 type PDV = {
-	id: string;
+	id: number;
 	tradingName: string;
 	ownerName: string;
 	document: string;
@@ -32,15 +33,19 @@ function loadSeedFile(path = 'assets/pdvs.json'): Seed {
 	return JSON.parse(data) as Seed;
 }
 
-function mapPDVsToBulk(pdvs: PDV[]): AnyBulkWriteOperation<PartnerWithId>[] {
-	return pdvs.map((pdv) => ({
-		insertOne: {
-			document: {
-				...pdv,
-				id: parseInt(pdv.id, 10),
+function mapPDVsToBulk(pdvs: PDV[]): AnyBulkWriteOperation<PartnerModel>[] {
+	return pdvs.map((pdv) => {
+		const partner = new PartnerMapper().toDomain({
+			...pdv,
+			createdAt: new Date(),
+		});
+
+		return {
+			insertOne: {
+				document: new PartnerMapper().toInfra(partner),
 			},
-		},
-	}));
+		};
+	});
 }
 
 function createBatches<T>(array: T[], size: number): T[][] {

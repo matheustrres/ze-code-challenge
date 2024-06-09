@@ -2,13 +2,14 @@ import mongoose from 'mongoose';
 
 import { type MultiPolygon, type Point } from '@/@core/domain/types';
 
-export type PartnerWithId = {
+export type PartnerModel = {
 	id: number;
 	ownerName: string;
 	tradingName: string;
 	document: string;
 	coverageArea: MultiPolygon;
 	address: Point;
+	createdAt: Date;
 };
 
 const pointSchema = new mongoose.Schema(
@@ -41,44 +42,39 @@ const multiPolygonSchema = new mongoose.Schema(
 	{ _id: false },
 );
 
-export const partnerSchema = new mongoose.Schema<PartnerWithId>(
-	{
-		id: {
-			type: Number,
-			required: true,
+export const partnerSchema = new mongoose.Schema<PartnerModel>({
+	id: {
+		type: Number,
+		required: true,
+		unique: true,
+		index: {
 			unique: true,
-			index: {
-				unique: true,
-			},
-		},
-		ownerName: {
-			type: String,
-			required: true,
-		},
-		tradingName: {
-			type: String,
-			required: true,
-		},
-		document: {
-			type: String,
-			required: true,
-			unique: true,
-			index: {
-				unique: true,
-			},
-		},
-		coverageArea: {
-			type: multiPolygonSchema,
-			required: true,
-		},
-		address: {
-			type: pointSchema,
-			required: true,
 		},
 	},
-	{
-		_id: false,
+	ownerName: {
+		type: String,
+		required: true,
 	},
-);
+	tradingName: {
+		type: String,
+		required: true,
+	},
+	document: {
+		type: String,
+		required: true,
+		unique: true,
+		index: {
+			unique: true,
+		},
+	},
+	coverageArea: {
+		type: multiPolygonSchema,
+		required: true,
+	},
+	address: {
+		type: pointSchema,
+		required: true,
+	},
+});
 
 export const PartnerModel = mongoose.model('partners', partnerSchema);
