@@ -11,7 +11,7 @@
   • <a href="#seeding-db">Seeding DB</a><br>
   • <a href="#running-locally">Running locally</a><br>
   • <a href="#running-tests">Running tests</a><br>
-  • <a href="#stack">Stack</a>
+  • <a href="#stack">Stack</a><br>
   • <a href="#license">License</a>
 </p>
 
