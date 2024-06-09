@@ -42,24 +42,32 @@ export class MongoPartnersRepository implements PartnersRepository {
 		return partner;
 	}
 
-	async findNearestByLocation(location: Location): Promise<Partner | null> {
-		const [nearestPartner] = await this.#model.aggregate<Partner>([
+	async findNearestByLocation({ lat, lng }: Location): Promise<Partner | null> {
+		const partnersCoveringLocation = await PartnerModel.find({
+			coverageArea: {
+				$geoIntersects: {
+					$geometry: {
+						type: 'Point',
+						coordinates: [lng, lat],
+					},
+				},
+			},
+		}).exec();
+
+		if (!partnersCoveringLocation.length) return null;
+
+		const nearestPartner = await PartnerModel.aggregate<Partner>([
 			{
 				$geoNear: {
 					near: {
 						type: 'Point',
-						coordinates: [location.lng, location.lat],
+						coordinates: [lng, lat],
 					},
 					distanceField: 'distance',
 					spherical: true,
 					query: {
-						coverageArea: {
-							$geoIntersects: {
-								$geometry: {
-									type: 'Point',
-									coordinates: [location.lng, location.lat],
-								},
-							},
+						_id: {
+							$in: partnersCoveringLocation.map((p) => p._id),
 						},
 					},
 				},
@@ -68,9 +76,36 @@ export class MongoPartnersRepository implements PartnersRepository {
 			{ $limit: 1 },
 		]);
 
-		if (!nearestPartner) return null;
+		return nearestPartner[0] || null;
 
-		return nearestPartner;
+		// const [nearestPartner] = await this.#model.aggregate([
+		// 	{
+		// 		$geoNear: {
+		// 			near: {
+		// 				type: 'Point',
+		// 				coordinates: [lng, lat],
+		// 			},
+		// 			distanceField: 'distance',
+		// 			spherical: true,
+		// 			query: {
+		// 				coverageArea: {
+		// 					$geoIntersects: {
+		// 						$geometry: {
+		// 							type: 'Point',
+		// 							coordinates: [lng, lat],
+		// 						},
+		// 					},
+		// 				},
+		// 			},
+		// 		},
+		// 	},
+		// 	{ $sort: { distance: 1 } },
+		// 	{ $limit: 1 },
+		// ]);
+
+		// if (!nearestPartner) return null;
+
+		// return nearestPartner;
 	}
 
 	async upsert(domainEntity: Partner): Promise<void> {

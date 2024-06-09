@@ -70,6 +70,7 @@ export const partnerSchema = new mongoose.Schema<PartnerModel>({
 	coverageArea: {
 		type: multiPolygonSchema,
 		required: true,
+		index: '2dsphere',
 	},
 	address: {
 		type: pointSchema,
